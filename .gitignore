@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+
+# 本机配置和密钥
+.env
+.env.*
+!.env.example
+
+# 本机安装的 OpenSearch 与证书
+opensearch-3.8.0/
+opensearch-dashboards-3.8.0/
+*.pem
+*.key
+
+# 原始数据来自官方源，默认不进入 Git。
+data/raw/
+data/staging/
+data/processed/
+data/MANIFEST.yaml
+reports/
+*.part

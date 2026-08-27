@@ -1,0 +1,19 @@
+dataset_name: amazon-shopping-queries-esci
+source_name: Amazon Science
+source_url: https://www.amazon.science/code-and-datasets/shopping-queries-dataset-a-large-scale-esci-benchmark-for-improving-product-search
+repository_url: https://github.com/amazon-science/esci-data
+raw_dir: data/raw/esci
+staging_dir: data/staging/esci
+processed_dir: data/processed/esci
+manifest_path: data/MANIFEST.yaml
+reports_dir: reports/evaluation
+locale_scope: us
+version_scope: small_version
+license_status: verify-before-redistribution
+files:
+  - name: shopping_queries_dataset_examples.parquet
+    url: https://media.githubusercontent.com/media/amazon-science/esci-data/refs/heads/main/shopping_queries_dataset/shopping_queries_dataset_examples.parquet
+  - name: shopping_queries_dataset_products.parquet
+    url: https://media.githubusercontent.com/media/amazon-science/esci-data/refs/heads/main/shopping_queries_dataset/shopping_queries_dataset_products.parquet
+  - name: shopping_queries_dataset_sources.csv
+    url: https://github.com/amazon-science/esci-data/raw/refs/heads/main/shopping_queries_dataset/shopping_queries_dataset_sources.csv

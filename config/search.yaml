@@ -1,0 +1,58 @@
+opensearch:
+  # 本机 OpenSearch 3.x 默认启用 Security/TLS；生产环境应使用受信任 CA，
+  # 这里的 false 只用于本地安装生成的自签名证书。
+  base_url: https://localhost:9200
+  verify_ssl: false
+  index_name: amazon_products_v1
+  request_timeout_seconds: 10
+  # 不保存明文凭证；命令行缺少凭证时会提示输入。
+  username_env: OPENSEARCH_USERNAME
+  password_env: OPENSEARCH_PASSWORD
+
+search:
+  default_top_k: 10
+  max_top_k: 100
+  field_weights:
+    title: 5
+    brand: 3
+    category: 2
+    description: 1
+    bullet_points: 1
+
+# Agent 默认使用 BM25、向量和 RRF 的混合检索。
+retrieval:
+  method: hybrid_rrf
+  hybrid_index_name: amazon_products_v4
+  bm25_k: 50
+  vector_k: 50
+  rrf_k: 60
+  fallback_on_vector_error: true
+  # 当前已加载数据的 category 字段不完整；Agent 默认将类别作为检索/排序语义，
+  # 不在 OpenSearch 过滤阶段使用 category.keyword。需要完整类目字段后才建议开启。
+  strict_category_filter: false
+
+embedding:
+  base_url: http://127.0.0.1:1234/v1
+  model: text-embedding-nomic-embed-text-v1.5
+  dimension: 768
+  timeout_seconds: 60
+  document_prefix: "search_document: "
+  query_prefix: "search_query: "
+  max_text_chars: 6000
+
+data:
+  products_parquet: data/processed/esci/products.parquet
+  products_jsonl: data/processed/esci/products.jsonl
+  examples_parquet: data/processed/esci/examples.parquet
+  reports_dir: reports/evaluation/
+  locale: us
+
+evaluation:
+  positive_labels:
+    - E
+    - S
+  graded_relevance:
+    E: 3
+    S: 2
+    C: 1
+    I: 0

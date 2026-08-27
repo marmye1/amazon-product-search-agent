@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#071013" />
+    <title>Agent Trace Lab</title>
+    <link rel="stylesheet" href="/ui/assets/styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere atmosphere-a"></div>
+    <div class="atmosphere atmosphere-b"></div>
+
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Agent Trace Lab 首页">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      </a>
+      <div class="topbar-right">
+        <span class="memory-pill"><span class="memory-dot"></span>本次会话临时保存</span>
+        <span id="health-status" class="health-status"><span class="status-dot"></span>检查本地服务…</span>
+        <a class="docs-link" href="/docs" target="_blank" rel="noreferrer">API docs <span>↗</span></a>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="side-rail panel-surface" aria-label="页面导航">
+        <div class="rail-kicker">00 / CONTROL</div>
+        <p class="rail-caption">一次运行，两种视角</p>
+
+        <div class="side-tabs" role="tablist" aria-label="Agent 页面标签">
+          <button id="chat-tab" class="side-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="chat-view" data-view="chat">
+            <span class="tab-index">01</span>
+            <span class="tab-copy"><strong>聊天界面</strong><small>输入问题 · 查看回答</small></span>
+            <span class="tab-arrow">↗</span>
+          </button>
+          <button id="trace-tab" class="side-tab" type="button" role="tab" aria-selected="false" aria-controls="trace-view" data-view="trace">
+            <span class="tab-index">02</span>
+            <span class="tab-copy"><strong>流程图</strong><small>查看完整执行链路</small></span>
+            <span class="tab-arrow">↗</span>
+          </button>
+        </div>
+
+        <div class="rail-status">
+          <div class="rail-status-label">CURRENT RUN</div>
+          <div id="sidebar-run-status" class="rail-status-value">未运行</div>
+          <div id="sidebar-run-count" class="rail-status-detail">等待一次 Agent 请求</div>
+        </div>
+
+        <div class="rail-footer"><span class="rail-footer-dot"></span><span>TRACE IS EPHEMERAL</span></div>
+      </aside>
+
+      <main class="view-stack">
+        <section id="chat-view" class="view-panel chat-view" role="tabpanel" aria-labelledby="chat-tab">
+          <div class="view-heading">
+            <div>
+              <div class="panel-kicker">01 / CONVERSATION</div>
+              <div class="heading-line">
+                <div>
+                  <h1>问题输入</h1>
+                  <p>从这里启动一次 Agent 运行；完成后切换到“流程图”查看最后一轮全过程。</p>
+                </div>
+                <span class="version-chip">PRODUCTION</span>
+              </div>
+            </div>
+            <div class="view-note"><span class="note-mark">●</span> 当前会话临时上下文</div>
+          </div>
+
+          <div class="chat-layout">
+            <div id="chat-log" class="chat-log" aria-live="polite">
+              <div class="welcome-card">
+                <div class="welcome-orbit"><span></span><span></span><span></span></div>
+                <p class="welcome-label">TRACE READY</p>
+                <h2>让每一步都可见。</h2>
+                  <p>先在这里输入商品问题。回答完成后，左侧“流程图”标签会保留最后一轮的完整执行链路。</p>
+                <div class="example-row">
+                  <button class="example-chip" data-example="wireless mouse">wireless mouse</button>
+                  <button class="example-chip" data-example="logitech wireless mouse">logitech / mouse</button>
+                </div>
+              </div>
+            </div>
+
+            <form id="query-form" class="query-form">
+              <label class="sr-only" for="query-input">商品检索问题</label>
+              <textarea id="query-input" rows="3" placeholder="例如：wireless mouse with long battery life" autocomplete="off"></textarea>
+              <div class="composer-bottom">
+                <span class="composer-note"><span class="keycap">⌘</span><span class="keycap">↵</span> 运行</span>
+                <button id="run-button" class="run-button" type="submit"><span class="run-icon">↗</span><span>Run agent</span></button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="trace-view" class="view-panel trace-view is-hidden" role="tabpanel" aria-labelledby="trace-tab" hidden>
+          <div class="trace-split">
+            <section class="detailed-flow-panel panel-surface">
+              <div class="flow-panel-heading">
+                <div><div class="panel-kicker">EXECUTION TIMELINE</div><h2>数据如何穿过每一层</h2></div>
+                <div class="flow-disclaimer"><span>可观测执行</span> · 不展示模型隐藏思维链</div>
+              </div>
+              <div id="flow-viewport" class="flow-viewport detailed-flow-viewport">
+                <div id="flow-track" class="flow-track"><div class="flow-empty"><span class="empty-line"></span><span>输入问题后，这里会显示真实执行顺序</span><span class="empty-line"></span></div></div>
+              </div>
+              <div class="flow-legend">
+                <span><i class="legend-dot boundary"></i>API / 服务边界</span>
+                <span><i class="legend-dot completed"></i>LangGraph 模块</span>
+                <span><i class="legend-dot degraded"></i>降级 / 有限制</span>
+                <span><i class="legend-line"></i>点击模块查看源码</span>
+              </div>
+            </section>
+
+            <aside class="trace-inspector panel-surface" aria-label="当前模块源码">
+              <div class="inspector-heading">
+                <div>
+                  <div class="panel-kicker">MODULE INSPECTOR</div>
+                  <div class="selected-title-row"><span id="selected-sequence" class="sequence-badge">—</span><h2 id="selected-name">选择一个流程模块</h2></div>
+                  <p id="selected-description">点击左侧任意模块，右侧只显示该模块的输入源码和输出源码。</p>
+                </div>
+                <div id="selected-meta" class="selected-meta">JSON · 等待选择</div>
+              </div>
+
+              <section class="source-pane source-input-pane">
+                <div class="source-heading"><div><span class="source-label">INPUT SOURCE</span><h3>模块输入源码</h3></div><button class="copy-button" data-copy-target="input-json" type="button">复制</button></div>
+                <p id="input-contract" class="contract-line">JSON · 尚未选择模块</p>
+                <div class="code-window"><pre id="input-json" class="json-code">{
+  "状态": "等待运行"
+}</pre></div>
+              </section>
+
+              <div class="source-divider" aria-hidden="true"><span>OUTPUT</span></div>
+
+              <section class="source-pane source-output-pane">
+                <div class="source-heading"><div><span class="source-label">OUTPUT SOURCE</span><h3>模块输出源码</h3></div><button class="copy-button" data-copy-target="output-json" type="button">复制</button></div>
+                <p id="output-contract" class="contract-line">JSON state patch · 尚未选择模块</p>
+                <div class="code-window"><pre id="output-json" class="json-code">{
+  "输出": "等待运行"
+}</pre></div>
+              </section>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/ui/assets/app.js"></script>
+  </body>
+</html>
