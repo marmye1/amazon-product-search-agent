@@ -4,7 +4,7 @@
 
 **Runtime & API**
 
-![Python](https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
 ![Uvicorn](https://img.shields.io/badge/Uvicorn-0.34-4051B5)
 ![Pydantic](https://img.shields.io/badge/Pydantic-2.10-E92063)
@@ -13,8 +13,8 @@
 
 **Agent & Retrieval**
 
-![LangGraph](https://img.shields.io/badge/LangGraph-0.2-1C3C3C)
-![LangChain Core](https://img.shields.io/badge/LangChain%20Core-0.2-1C3C3C)
+![LangGraph](https://img.shields.io/badge/LangGraph-1.2-1C3C3C)
+![LangChain Core](https://img.shields.io/badge/LangChain%20Core-1.6-1C3C3C)
 ![OpenSearch](https://img.shields.io/badge/OpenSearch-3.x-005EB8)
 ![BM25](https://img.shields.io/badge/Retrieval-BM25-2563EB)
 ![kNN](https://img.shields.io/badge/Retrieval-kNN-7C3AED)
@@ -273,14 +273,14 @@ curl -X POST http://127.0.0.1:8000/v1/chat \
 
 需要准备：
 
-1. Python 3.9。
+1. Python 3.11。
 2. OpenSearch 3.x，并准备商品索引。
 3. LM Studio，以及可用的本地 Qwen 模型和 `text-embedding-nomic-embed-text-v1.5` Embedding 模型。
 
 ### 安装与配置
 
 ```bash
-python3.9 -m venv .venv
+python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 
