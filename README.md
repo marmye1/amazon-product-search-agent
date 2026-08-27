@@ -2,11 +2,54 @@
 
 > 一个面向商品搜索与购买决策的本地 AI 应用工程。项目将混合检索、LangGraph Agent 编排、本地大语言模型、结构化 RAG、字段级证据校验和 FastAPI 服务整合为一条可观察、可测试的商品检索链路。
 
+**Runtime & API**
+
 ![Python](https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
+![Uvicorn](https://img.shields.io/badge/Uvicorn-0.34-4051B5)
+![Pydantic](https://img.shields.io/badge/Pydantic-2.10-E92063)
+![REST API](https://img.shields.io/badge/REST%20API-JSON-0F766E)
+![OpenAPI](https://img.shields.io/badge/OpenAPI-FastAPI-6BA539)
+
+**Agent & Retrieval**
+
 ![LangGraph](https://img.shields.io/badge/LangGraph-0.2-1C3C3C)
+![LangChain Core](https://img.shields.io/badge/LangChain%20Core-0.2-1C3C3C)
 ![OpenSearch](https://img.shields.io/badge/OpenSearch-3.x-005EB8)
+![BM25](https://img.shields.io/badge/Retrieval-BM25-2563EB)
+![kNN](https://img.shields.io/badge/Retrieval-kNN-7C3AED)
+![RRF](https://img.shields.io/badge/Fusion-RRF-9333EA)
+![RAG](https://img.shields.io/badge/Generation-RAG-DB2777)
+![Grounding](https://img.shields.io/badge/Validation-Grounding-B91C1C)
+![Rule Reranking](https://img.shields.io/badge/Reranking-Rule--based-F97316)
+![Query Rewrite](https://img.shields.io/badge/Query%20Rewrite-Bounded-F59E0B)
+
+**Local Models**
+
+![LM Studio](https://img.shields.io/badge/LM%20Studio-Local%20Inference-111827)
+![Qwen](https://img.shields.io/badge/LLM-Qwen-0EA5E9)
+![Nomic Embedding](https://img.shields.io/badge/Embedding-Nomic-14B8A6)
+![OpenAI Compatible](https://img.shields.io/badge/API-OpenAI--compatible-10B981)
+
+**Data & Frontend**
+
+![pandas](https://img.shields.io/badge/pandas-2.2-150458?logo=pandas&logoColor=white)
+![PyArrow](https://img.shields.io/badge/PyArrow-17-F2C811)
+![YAML](https://img.shields.io/badge/Config-YAML-CB171E)
+![JSON](https://img.shields.io/badge/Data-JSON%20%7C%20JSONL-000000)
+![Parquet](https://img.shields.io/badge/Data-Parquet-50ABF1)
+![HTML](https://img.shields.io/badge/Frontend-HTML-E34F26?logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/Frontend-CSS-1572B6?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/Frontend-JavaScript-F7DF1E?logo=javascript&logoColor=black)
+
+**Testing & Engineering**
+
 ![Pytest](https://img.shields.io/badge/Tests-82%20passing-0A7B34?logo=pytest&logoColor=white)
+![HTTPX](https://img.shields.io/badge/API%20Testing-HTTPX-0F766E)
+![TestClient](https://img.shields.io/badge/FastAPI-TestClient-009688)
+![Trace ID](https://img.shields.io/badge/Observability-trace__id-475569)
+![Structured Logging](https://img.shields.io/badge/Logging-Structured-64748B)
+![Requests](https://img.shields.io/badge/HTTP-Requests-2CA5E0)
 
 ## 项目定位
 
@@ -32,35 +75,6 @@
 - 如何通过 API 契约、错误边界、追踪信息和自动化测试交付一个可运行的 AI 应用。
 
 这是一个本地运行的工程样例，当前不包含实时价格、库存、销量、配送、下单或支付能力，也不承诺线上高并发和多租户生产能力。
-
-## 技术栈
-
-| 技术层 | 技术组件 | 项目中的实际用途 |
-| --- | --- | --- |
-| 编程语言 | Python 3.9 | 业务逻辑、数据处理、检索、Agent 和 API 服务 |
-| Web API | FastAPI 0.115 | REST API、生命周期管理、异常处理和 OpenAPI 接口 |
-| ASGI 运行时 | Uvicorn 0.34 | 本地启动 FastAPI 服务 |
-| 数据模型 | Pydantic 2.10 | 请求校验、响应契约、严格字段和错误结构 |
-| Agent 编排 | LangGraph 0.2 | 使用 `StateGraph` 编排单 Agent 状态流转和条件分支 |
-| LLM 编排基础 | LangChain Core 0.2 | Prompt 模板、JSON 输出解析和 Runnable 组件 |
-| 搜索引擎 | OpenSearch 3.x | 商品索引、关键词检索、kNN 向量检索和字段过滤 |
-| 关键词检索 | BM25 | 基于标题、品牌、类目、描述和卖点的词法召回 |
-| 向量检索 | OpenSearch kNN | 基于商品文本向量的语义召回 |
-| 融合排序 | Reciprocal Rank Fusion（RRF） | 融合 BM25 和向量两路候选，并保留来源排名 |
-| 本地模型服务 | LM Studio | 提供 OpenAI-compatible 的本地模型接口 |
-| 生成模型 | Qwen 本地模型 | 需求解析、RAG 商品回答、对话上下文判断和记忆提取 |
-| Embedding 模型 | `text-embedding-nomic-embed-text-v1.5` | 生成查询和商品文档向量，默认维度为 768 |
-| RAG | Context Builder + Structured Generation | 从候选商品字段构造有限上下文并生成结构化回答 |
-| 约束处理 | Rule-based Constraint Checking | 检查品牌、类目、用途、必须条件和排除条件 |
-| 候选排序 | Explainable Rule Reranking | 根据用户约束对召回候选做可解释规则重排序 |
-| 查询改写 | Bounded Query Rewrite | 候选不足、约束冲突或证据不足时进行有限次数查询改写 |
-| 证据校验 | Grounding / Evidence Validation | 校验商品 ID、标题、字段、证据来源和回答断言 |
-| 数据处理 | pandas 2.2、PyArrow 17 | ESCI 数据清洗、Parquet 读写和评估数据处理 |
-| 数据格式 | YAML、JSON、JSONL、Parquet | 配置、商品文档、数据契约和评估输入输出 |
-| 前端 | 原生 HTML、CSS、JavaScript | 展示聊天结果、商品推荐和真实 Agent 执行链路 |
-| 可观测性 | `trace_id`、结构化日志、execution trace | 关联请求、记录节点路径、耗时、状态和非敏感摘要 |
-| 测试 | Pytest、HTTPX、FastAPI TestClient | 单元测试、API 测试、契约测试、回归测试和消融评估 |
-| 依赖调用 | Requests | 调用 OpenSearch HTTP 接口和 LM Studio OpenAI-compatible 接口 |
 
 ## 系统架构
 
